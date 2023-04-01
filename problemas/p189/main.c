@@ -143,14 +143,6 @@ void darray_del(value_t value, darray_t *darray)
     }
 
     darray->len = i;
-
-    /*for (i = darray->len - 1; i >= 0; i--)*/
-        /*if (darray->data[i] == value)*/
-        /*{*/
-            /*darray->len--;*/
-            /*for (j = i; j < darray->len; j++)*/
-                /*darray->data[j] = darray->data[j + 1];*/
-        /*}*/
 }
 /*<=='*/
 
