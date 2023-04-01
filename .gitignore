@@ -1,0 +1,19 @@
+## Ignore all files without extension
+## https://stackoverflow.com/questions/5711120/gitignore-binary-files-that-have-no-extension
+# Ignore all
+*
+
+# Unignore all with extensions
+!*.*
+
+# Unignore all dirs
+!*/
+
+# Unignore makefiles
+!makefile
+
+## Others
+# Ignore samples and outputs
+*output
+*sample*.*
+
