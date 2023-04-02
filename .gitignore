@@ -10,7 +10,7 @@
 !*/
 
 # Unignore makefiles
-!makefile
+!makefile*
 
 ## Others
 # Ignore samples and outputs
