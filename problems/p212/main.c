@@ -6,10 +6,10 @@
 
 int main()
 {
-    // Por qué tenerlo todo a parte, cuando se puede hacer aquí
+    // Por qué tenerlo todo aparte, cuando se puede hacer aquí
     uint16_t ncalles, nint, from, to;
     register uint16_t i;
-    uint8_t *data;
+    uint8_t *data = calloc(sizeof(uint8_t), 50);
 
     for ever    // me encanta esto
     {
@@ -20,9 +20,6 @@ int main()
 
         scanf("%hu\n", &nint);
 
-        // Aloco un array con las llegadas y salidas
-        data = calloc(sizeof(uint16_t), nint);
-
         for (; ncalles > 0; ncalles--)
         {
             // Leo la calle
@@ -32,18 +29,17 @@ int main()
             data[to - 1]++;
         }
 
-        // Compruebo que son todos mayores que 0, pares o 2 impares
+        // Compruebo que son todos pares o 2 impares
         ncalles = 0;
         for (i = 0; i < nint; i++)
         {
             ncalles += data[i] % 2;
+            data[i] = 0;
         }
 
         if (ncalles == 0 || ncalles == 2)
             printf("SI\n");
         else
             printf("NO\n");
-
-        free(data);
     }
 }
