@@ -1,22 +1,9 @@
 #include <stdlib.h>
-#include <stdint.h>
+#include <string.h>
 
-// Declarations
-#define INIT_DARRAY_CAP 8
-#define GROW_FACTOR 2
+#include "darray.h"
 
-typedef uint32_t value_t;
-typedef struct {
-    value_t *data;
-    uint32_t len, capacity;
-} darray_t;
 
-void darray_init(darray_t *);
-void darray_free(darray_t *);
-void darray_push(value_t value, darray_t *);
-void darray_del(value_t value, darray_t *); 
-
-// Definitions
 void darray_init(darray_t *darray)
 {
     darray->len = 0;
@@ -41,12 +28,12 @@ void darray_push(value_t value, darray_t *darray)
     {
         darray->capacity *= GROW_FACTOR;
 
-        // Maybe it dislikes malloc?
         newpt = malloc(sizeof(value_t) * darray->capacity);
         memcpy(newpt, darray->data, sizeof(value_t) * darray->len);
         free(darray->data);
         darray->data = newpt;
 
+        // a "Acepta el reto" no le gusta realloc
         /*darray->data = realloc(darray->data, darray->capacity * sizeof(value_t));*/
     }
     
@@ -73,14 +60,6 @@ void darray_del(value_t value, darray_t *darray)
     }
 
     darray->len = i;
-
-    /*for (i = darray->len - 1; i >= 0; i--)*/
-        /*if (darray->data[i] == value)*/
-        /*{*/
-            /*darray->len--;*/
-            /*for (j = i; j < darray->len; j++)*/
-                /*darray->data[j] = darray->data[j + 1];*/
-        /*}*/
 }
 
 
