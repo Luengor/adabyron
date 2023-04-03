@@ -62,4 +62,14 @@ void darray_del(value_t value, darray_t *darray)
     darray->len = i;
 }
 
+value_t darray_pop(register uint32_t index, darray_t *darray)
+{
+    value_t v = darray->data[index];
+
+    for (; index < darray->len; index++)
+        darray->data[index] = darray->data[index + 1];
+
+    darray->len--;
+    return v;
+}
 

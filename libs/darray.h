@@ -21,5 +21,6 @@ void darray_init(darray_t *);
 void darray_free(darray_t *);
 void darray_push(value_t value, darray_t *);
 void darray_del(value_t value, darray_t *); 
+value_t darray_pop(uint32_t index, darray_t *);
 
 #endif
