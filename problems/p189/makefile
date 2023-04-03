@@ -8,3 +8,7 @@ mainperomal: main.c
 	gcc ppmain.c -o main -std=gnu89
 	rm ppmain.c
 
+test: main
+	./main < sample.in > output
+	diff output sample.out
+
