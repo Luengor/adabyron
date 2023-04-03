@@ -4,6 +4,7 @@
 #include <stdint.h>
 
 #include "../../libs/darray.h"
+#include "../../libs/fastio.h"
 
 int testcase()
 {
@@ -13,7 +14,7 @@ int testcase()
     darray_t pasajeros;
 
     // Leer número de pasajeros
-    scanf("%u\n", &npasajeros);
+    npasajeros = fio_parse_int();
 
     // El caso 0 es fin
     if (npasajeros == 0)
@@ -23,25 +24,25 @@ int testcase()
     darray_init(&pasajeros);
     for (; npasajeros > 0; npasajeros--)
     {
-        scanf("%u%*c", &pasajero);
+        pasajero = fio_parse_int();
         darray_push(pasajero, &pasajeros);
     }
 
     // Leo número de operaciones
-    scanf("%u\n", &nops);
+    nops = fio_parse_int();
 
     // Hago operaciones
     for (; nops > 0; nops--)
     {
         // Read op
-        scanf("%c", &op);
+        op = getchar_unlocked();
+        fio_consume_nchars(8);
+        pasajero = fio_parse_int();
 
         switch (op)
         {
             case 'E':
                 // Embarque
-                scanf("MBARQUE %u\n", &pasajero);
-
                 // Quito todos los pasajeros con ese número
                 darray_del(pasajero, &pasajeros);
 
@@ -51,15 +52,13 @@ int testcase()
         
             case 'C':
                 // Consulta
-                scanf("ONSULTA %u\n", &pasajero);
-
                 // Devuelvo el número que pida
                 printf("%u\n", pasajeros.data[pasajero - 1]);
                 break;
         }
     }
 
-    printf("*\n");
+    fio_fast_print("*\n", 2);
 
     // Limpio
     darray_free(&pasajeros);
