@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <stdint.h>
 
+#include "../../libs/fastio.h"
+
 #define ever (;;)
 
 int main()
@@ -14,16 +16,20 @@ int main()
     for ever    // me encanta esto
     {
         // Leo número de calles e intersecciones
-        scanf("%hu\n", &ncalles);
+        ncalles = fio_parse_int();
+        /*scanf("%hu\n", &ncalles);*/
         if (ncalles == 0)
             return 0;
 
-        scanf("%hu\n", &nint);
+        nint = fio_parse_int();
+        /*scanf("%hu\n", &nint);*/
 
         for (; ncalles > 0; ncalles--)
         {
             // Leo la calle
-            scanf("%hu %hu\n", &from, &to);
+            from = fio_parse_int();
+            to = fio_parse_int();
+            /*scanf("%hu %hu\n", &from, &to);*/
 
             data[from - 1]++;
             data[to - 1]++;
