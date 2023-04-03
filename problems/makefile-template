@@ -4,5 +4,7 @@ main : main.c
 	rm ppmain.c
 
 mainperomal: main.c
-	gcc main.c -o main
+	prepreprocessor main.c ppmain.c
+	gcc ppmain.c -o main -std=gnu89
+	rm ppmain.c
 
