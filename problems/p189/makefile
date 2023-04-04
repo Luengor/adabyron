@@ -1,6 +1,6 @@
 main : main.c
 	prepreprocessor main.c ppmain.c
-	gcc ppmain.c -o main -std=gnu89 -fsanitize=address -fsanitize=leak -g
+	gcc ppmain.c -o main -std=gnu89 -fsanitize=address -fsanitize=leak -g --pedantic -Wall
 	rm ppmain.c
 
 mainperomal: main.c
