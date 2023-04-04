@@ -13,7 +13,7 @@ void fio_fast_print(const char *str, size_t str_len)
  */
 int fio_parse_int()
 {
-    register int n, c;
+    int n, c;
 
     n = getchar_unlocked() - '0';
     if (n == ('-' - '0')) n = -1;
