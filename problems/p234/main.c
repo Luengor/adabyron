@@ -3,26 +3,26 @@
 #include <stdint.h>
 
 #include "../../libs/fastio.h"
-#include "../../libs/heap.h"
+#include "../../libs/keyheap.h"
 
 void test()
 {
-    uint32_t npilas, nvoltios, i, j, k, pila, validas = 0;
+    uint32_t npilas, nvoltios, i, j, validas = 0;
     uint32_t *pilas;
-    heap_t heap;
+    kheap_t heap;
 
     // Leo datos iniciales
     npilas = fio_parse_int();
     nvoltios = fio_parse_int(); 
 
     // Voy metiendo las pilas a un montículo para que salgan ordenadas luego 
-    heap_init(npilas, &heap);
+    kheap_init(npilas, &heap);
     for (i = 0; i < npilas; i++)
-        heap_insert(0, fio_parse_int(), &heap);
+        kheap_insert(fio_parse_int(), &heap);
 
     pilas = malloc(sizeof(uint32_t) * npilas); 
     for (i = 0; i < npilas; i++)
-        pilas[i] = heap_popmin(&heap).key;
+        pilas[i] = kheap_popmin(&heap);
 
     // Recorro el array con un puntero en cada extremo.
     // El puntero de la izquierda avanza siempre y el de la derecha solo cuando
@@ -39,7 +39,7 @@ void test()
     printf("%d\n", validas);
 
     // Libero las pilas
-    heap_free(&heap);
+    kheap_free(&heap);
     free(pilas);
 }
 
