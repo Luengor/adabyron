@@ -11,7 +11,7 @@ void fio_print(const char *str, size_t str_len)
 /*
  * Reads a integer from stdin and consumes the next char
  */
-int fio_parse_int()
+int fio_parse_int(void)
 {
     int n, c;
 
