@@ -5,7 +5,7 @@
 
 void fio_print(const char *, size_t s);
 
-int fio_parse_int();
+int fio_parse_int(void);
 void fio_consume_nchars(int n);
 size_t fio_consume_until(char c);
 
