@@ -1,11 +1,10 @@
+CC := clang
+CFLAGS := -std=gnu89 -fsanitize=address -fsanitize=leak -g --pedantic -Wall
+
+
 main : main.c
 	prepreprocessor main.c ppmain.c
-	gcc ppmain.c -o main -std=gnu89 -fsanitize=address -fsanitize=leak -g --pedantic -Wall
-	rm ppmain.c
-
-mainperomal: main.c
-	prepreprocessor main.c ppmain.c
-	gcc ppmain.c -o main -std=gnu89
+	$(CC) ppmain.c -o main $(CFLAGS) 
 	rm ppmain.c
 
 test: main
