@@ -3,7 +3,7 @@
 /*
  * Prints a CONSTANT string fast
  */
-void fio_fast_print(const char *str, size_t str_len)
+void fio_print(const char *str, size_t str_len)
 {
     fwrite_unlocked(str, 1, str_len, stdout); 
 }
