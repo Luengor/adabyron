@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define half_index(_i) (((_i) <= 2) ? 0 : (_i) / 2)
 #define double_index(_i) (((_i) == 0) ? 1 : (_i) * 2)
 
 /// Static declarations
@@ -14,8 +15,8 @@ static void heap_shift_up(int32_t i, heap_t *heap)
     heap_node_t node;
 
     for (node = heap->data[i];
-         i > 0 && node.key < heap->data[i/2].key;
-         heap->data[i] = heap->data[i/2], i /= 2);
+         i > 0 && node.key < heap->data[half_index(i)].key;
+         heap->data[i] = heap->data[half_index(i)], i = half_index(i));
 
     heap->data[i] = node;
 }
@@ -46,7 +47,7 @@ static void heap_shift_down(int32_t i, heap_t *heap)
 /// Everything else
 void heap_init(uint32_t capacity, heap_t *heap)
 {
-    heap->capacity = (capacity == 0) ? HEAP_INIT_CAP : capacity;
+    heap->capacity = (capacity <= 0) ? HEAP_INIT_CAP : capacity;
     heap->len = 0;
     heap->data = malloc(sizeof(heap_node_t) * heap->capacity);
 }
@@ -104,7 +105,7 @@ heap_node_t heap_popmin(heap_t *heap)
     heap->len--;
     
     n = heap->data[0];
-    heap->data[0].key = heap->data[heap->len].key;
+    heap->data[0] = heap->data[heap->len];
     heap_shift_down(0, heap);
 
     return n;
