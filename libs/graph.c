@@ -231,3 +231,73 @@ void graph_dijkstra(uint32_t start_v, graph_t *graph)
 #undef gvertices
 }
 
+int32_t graph_pathfind_dijkstra(uint32_t start_v, uint32_t end_v, graph_t *graph)
+{
+#define edge_i graph->vertices[v].edges[i]
+#define gvertices graph->vertices
+
+    heap_t heap;
+    uint32_t v, w, i;
+    heap_node_t n;
+
+    // Prepare the tree
+    graph_prepare(graph);
+    graph->vertices[start_v].info.distance = 0;
+
+    // Init the heap
+    heap_init(0, &heap);
+    heap_insert(start_v, 0, &heap);
+
+    while (heap.len > 0)
+    {
+        // Get the vertex with the smallest distance
+        n = heap_popmin(&heap);
+        v = n.value;
+
+        // If its already reached, skip it 
+        if (gvertices[v].info.reached)
+            continue;
+
+        // Reach it
+        gvertices[v].info.reached = 1;
+
+        // Check if it is the vertex we are searching for
+        if (v == end_v)
+        {
+            heap_free(&heap);
+            return gvertices[v].info.distance;
+        }
+
+        // Get all children not yet reached and push them into the heap
+        for (i = 0; i < gvertices[v].edges_len; i++)
+        {
+            w = edge_i.vertex;
+
+            // Skip it if its already visited
+            if (gvertices[w].info.reached)
+                continue;
+            
+            // Only add it if we have a smaller distance
+            if (gvertices[v].info.distance + edge_i.weight <
+                    gvertices[w].info.distance)
+            {
+                gvertices[w].info.distance =
+                    gvertices[v].info.distance + edge_i.weight;
+                gvertices[w].info.prev_vertex = v;
+
+                // Add it to the heap
+                heap_insert(w, gvertices[w].info.distance, &heap);
+            }
+        }
+    }
+
+    // Free the heap
+    heap_free(&heap);
+    
+    return -1;
+
+#undef edge_i
+#undef gvertices
+}
+
+

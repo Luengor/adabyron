@@ -53,6 +53,7 @@ void graph_remove_edge(uint32_t from, uint32_t to, graph_t *);
 
 void graph_bfs(uint32_t start_v, graph_t *);
 void graph_dijkstra(uint32_t start_v, graph_t *);
+int32_t graph_pathfind_dijkstra(uint32_t start_v, uint32_t end_v, graph_t *);
 
 #endif
 
