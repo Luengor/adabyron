@@ -24,6 +24,26 @@ int fio_parse_int(void)
     return n;
 }
 
+int fio_parse_inteof(int *n)
+{
+    int c;
+
+    c = getchar_unlocked();
+    if (c == EOF)
+    {
+        *n = 0;
+        return 1;
+    }
+
+    c -= '0';
+    *n = (c == ('-' - '0') ? -1 : c);
+
+    while ((c = getchar_unlocked()) >= '0')
+        *n = 10 * *n + c - '0';
+
+    return c == EOF;
+}
+
 /*
  * Consumes n chars from stdin
  */
