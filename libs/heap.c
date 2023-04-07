@@ -66,7 +66,6 @@ bool heap_is_empty(heap_t *heap)
 
 heap_t *heapify(heap_key_t *array, uint32_t len)
 {
-    int32_t i;
     heap_t *heap = malloc(sizeof(heap_t));
     heap_init(len, heap);
 
