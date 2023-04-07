@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-import subprocess
 import random
 from sys import argv
 
@@ -23,7 +22,7 @@ npaquetes = random.randint(1, ncasas)
 print(f"ncasas: {ncasas:6d}",
       f"nconexiones: {nconexiones:6d}",
       f"oficina: {oficina:6d}",
-      f"npaquetes: {npaquetes:6d}")
+      f"npaquetes: {npaquetes:6d}", sep="\n")
 
 # start creating input
 input_text = f"{ncasas}\n{nconexiones}\n"

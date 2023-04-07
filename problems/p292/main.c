@@ -8,14 +8,15 @@ int testcase(void)
 {
     graph_t grafo;
     int ncasas, ncaminos, i, oficina, npaquetes;
-    uint32_t from, to, distancia;
+    uint32_t from, to, distancia, tmp;
     int *paquetes;
 
     // Leo cosas iniciales
     if (fio_parse_inteof(&ncasas))
         return 0;
 
-    ncaminos = fio_parse_int();
+    if (fio_parse_inteof(&ncaminos))
+        return 0;
 
     // Creo el grafo 
     graph_init(&grafo);
@@ -53,30 +54,32 @@ int testcase(void)
         else
         {
             printf("Imposible\n");
-            goto salir;
+            graph_free(&grafo);
+            free(paquetes);
+            return 1;
         }
     }
 
     // Ahora calculamos la distancia de vuelta
     for (i = 0; i < npaquetes; i++)
     {
-        graph_dijkstra(paquetes[i], &grafo);
+        tmp = graph_pathfind_dijkstra(paquetes[i], oficina, &grafo);
 
-        if (grafo.vertices[oficina].info.reached) 
+        if (tmp >= 0) 
         {
-            distancia += grafo.vertices[oficina].info.distance;
+            distancia += tmp; 
         }
         else
         {
             printf("Imposible\n");
-            goto salir;
+            graph_free(&grafo);
+            free(paquetes);
+            return 1;
         }
     }
 
 
     printf("%d\n", distancia);
-
-salir:
     graph_free(&grafo);
     free(paquetes);
 

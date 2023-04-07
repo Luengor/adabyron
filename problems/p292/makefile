@@ -11,3 +11,7 @@ test: main
 	./main < sample.in > output
 	diff output sample.out
 
+testpython: main tester.py
+	python3 tester.py 0 pysample.in
+	./main < pysample.in 
+
