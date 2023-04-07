@@ -1,5 +1,5 @@
 CC := clang
-CFLAGS := -std=gnu89 -fsanitize=address -fsanitize=leak -g --pedantic -Wall
+CFLAGS := -std=gnu89 -fsanitize=address -fsanitize=leak -g --pedantic -Wunused-variable
 
 
 main : main.c
