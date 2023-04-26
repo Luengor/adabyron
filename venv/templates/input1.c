@@ -1,5 +1,5 @@
+#include <stdint.h>
 #include "fastio.h"
-
 
 void testcase(void)
 {
