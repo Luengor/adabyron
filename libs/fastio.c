@@ -1,17 +1,11 @@
 #include "fastio.h"
 #include <stdlib.h>
 
-/*
- * Prints a CONSTANT string fast
- */
 void fio_print(const char *str, size_t str_len)
 {
     fwrite_unlocked(str, 1, str_len, stdout); 
 }
 
-/*
- * Reads a integer from stdin and consumes the next char
- */
 int fio_parse_int(void)
 {
     int n, c;
@@ -25,9 +19,6 @@ int fio_parse_int(void)
     return n;
 }
 
-/*
- * Reads a integer from stdin and consumes the next char
- */
 long long fio_parse_longlong(void)
 {
     long long n;
@@ -59,18 +50,12 @@ char *fio_parse_string(int maxn, char end_char)
     return out;
 }
 
-/*
- * Consumes n chars from stdin
- */
 void fio_consume_nchars(int n)
 {
     for (; n > 0; n--)
         getchar_unlocked();
 }
 
-/*
- * Consumes chars until c is found and returns the length
- */
 size_t fio_consume_until(char c)
 {
     size_t count = 0;
