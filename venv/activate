@@ -16,12 +16,12 @@ if [[ -z "${ADAVENVSET}" ]]; then
     export PS1="<ada> $PS1"
     
     # Deactivate
-    deactivate() {
+    ada-deactivate() {
         export PATH="$OLD_PATH"
         export CPATH="$OLD_CPATH"
         export PS1="$OLD_PS1"
 
-        unset -f deactivate
+        unset -f ada-deactivate
         unset ADAVENVSET
     }
 
