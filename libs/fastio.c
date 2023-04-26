@@ -24,25 +24,23 @@ int fio_parse_int(void)
     return n;
 }
 
-int fio_parse_inteof(int *n)
+/*
+ * Reads a integer from stdin and consumes the next char
+ */
+long long fio_parse_longlong(void)
 {
+    long long n;
     int c;
 
-    c = getchar_unlocked();
-    if (c == EOF)
-    {
-        *n = 0;
-        return 1;
-    }
-
-    c -= '0';
-    *n = (c == ('-' - '0') ? -1 : c);
+    n = getchar_unlocked() - '0';
+    if (n == ('-' - '0')) n = -1;
 
     while ((c = getchar_unlocked()) >= '0')
-        *n = 10 * *n + c - '0';
+        n = 10 * n + c - '0';
 
-    return c == EOF;
+    return n;
 }
+
 
 /*
  * Consumes n chars from stdin
