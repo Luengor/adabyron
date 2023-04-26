@@ -1,0 +1,34 @@
+#!/bin/sh
+if [[ -z "${ADAVENVSET}" ]]; then
+    # Save old things
+    OLD_PATH=${PATH}
+    OLD_CPATH=${CPATH}
+    OLD_PS1=${PS1}
+
+    # Get things
+    venv_path=$(dirname $(realpath $0))
+    scripts_path="$venv_path/scripts"
+    libs_path="$(realpath "$venv_path/../libs/")"
+
+    # Export things 
+    export PATH="$PATH:$scripts_path"
+    export CPATH="$CPATH:$libs_path"
+    export PS1="<ada> $PS1"
+    
+    # Deactivate
+    deactivate() {
+        export PATH="$OLD_PATH"
+        export CPATH="$OLD_CPATH"
+        export PS1="$OLD_PS1"
+
+        unset -f deactivate
+        unset ADAVENVSET
+    }
+
+    # Set vevn
+    export ADAVENVSET="$venv_path"
+else
+    # Dont allow 2 sets
+    echo "dont do it twice"
+fi
+
