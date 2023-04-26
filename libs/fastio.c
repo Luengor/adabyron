@@ -1,4 +1,5 @@
 #include "fastio.h"
+#include <stdlib.h>
 
 /*
  * Prints a CONSTANT string fast
@@ -41,6 +42,22 @@ long long fio_parse_longlong(void)
     return n;
 }
 
+char *fio_parse_string(int maxn, char end_char)
+{
+    char *out = malloc(sizeof(char) * maxn);
+    int i;
+
+    out[end_char - 1] = 0;
+
+    for (i = 0; i < maxn - 1; i++)
+        if ((out[i] = getchar_unlocked()) == end_char)
+        {
+            out[i + 1] = 0;
+            break;
+        }
+            
+    return out;
+}
 
 /*
  * Consumes n chars from stdin
