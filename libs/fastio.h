@@ -10,12 +10,17 @@ void fio_print(const char *, size_t s);
 
 
 /*
- * Reads a integer from stdin and consumes the next char
+ * Reads an integer from stdin and consumes the next char
  */
 int fio_parse_int(void);
 
 /*
- * Reads a integer from stdin and consumes the next char
+ * Reads an unsigned integer from stdin and consumes the next char
+ */
+unsigned int fio_parse_uint(void);
+
+/*
+ * Reads a long long from stdin and consumes the next char
  */
 long long fio_parse_longlong(void);
 

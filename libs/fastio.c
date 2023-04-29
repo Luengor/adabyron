@@ -19,6 +19,19 @@ int fio_parse_int(void)
     return n;
 }
 
+unsigned int fio_parse_uint(void)
+{
+    int c;
+    unsigned int n;
+
+    n = 0;
+    while ((c = getchar_unlocked()) >= '0')
+        n = 10 * n + c - '0';
+
+    return n;
+}
+
+
 long long fio_parse_longlong(void)
 {
     long long n;
