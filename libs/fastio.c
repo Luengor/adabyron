@@ -1,11 +1,7 @@
 #include "fastio.h"
 #include <stdlib.h>
 
-void fio_print(const char *str, size_t str_len)
-{
-    fwrite_unlocked(str, 1, str_len, stdout); 
-}
-
+/// Read
 int fio_parse_int(void)
 {
     int n, c;

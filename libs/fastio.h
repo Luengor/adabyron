@@ -2,13 +2,18 @@
 #define INCLUDE_FASTIO_H
 
 #include <stdio.h>
+#include <stdint.h>
 
 /*
  * Prints a CONSTANT string fast
  */
-void fio_print(const char *, size_t s);
+#define fio_print(_str, _size)    \
+    fwrite_unlocked(_str, 1, _size, stdout)
 
-
+#define fio_printd(_d)              \
+    for (; d > 0; d /= 10)          \
+        fputc_unlocked('0' % 10, stdout);
+    
 /*
  * Reads an integer from stdin and consumes the next char
  */
