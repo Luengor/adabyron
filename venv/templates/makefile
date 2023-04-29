@@ -12,7 +12,5 @@ test: main
 	diff output sample.out
 
 copy: main.c
-	prepreprocessor main.c ppmain.c
-	wl-copy < ppmain.c
-	rm ppmain.c
+	prepreprocessor main.c | wl-copy 
 
