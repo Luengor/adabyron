@@ -15,19 +15,19 @@ if not os.environ.get("ADAVENVSET"):
 if len(argv) not in (2, 3):
     print(f"{argv[0]} <problem n> [input type]")
 
-problemn = argv[1]
+problem = argv[1]
 inputtype = 0 if len(argv) == 2 else int(argv[2])
 
 ## Do everything
 # Make folder, download, move, extract, move samples, delete
-os.system(f"mkdir p{problemn}") 
-os.system(f"wget \"{GET_URL(problemn)}\"")
-os.system(f"mv sample{problemn}.zip p{problemn}")
-os.chdir(f"p{problemn}")
-os.system(f"unzip sample{problemn}.zip")
-os.system(f"rm -r sample{problemn}.zip")
+os.system(f"mkdir p{problem}") 
+os.system(f"wget \"{GET_URL(problem)}\"")
+os.system(f"mv sample{problem}.zip p{problem}")
+os.chdir(f"p{problem}")
+os.system(f"unzip sample{problem}.zip")
+os.system(f"rm -r sample{problem}.zip")
 
 # Copy template
-os.system(f"cp ${ADAENVVAR}/templates/input{inputtype}.c main.c")
+os.system(f"cp ${ADAENVVAR}/templates/input{inputtype}.cpp main.cpp")
 os.system(f"cp ${ADAENVVAR}/templates/makefile makefile")
 
