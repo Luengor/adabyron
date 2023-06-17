@@ -21,6 +21,6 @@
 test/*
 
 # Unignore venv
-!venv/*
-!venv/scripts/*
+!.venv/*
+!.venv/scripts/*
 
