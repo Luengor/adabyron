@@ -6,15 +6,6 @@ from sys import argv
 ADAENVVAR = "ADAVENVSET"
 DOWNLOAD_URL = "https://aceptaelreto.com/pub/problems/v00{0}/{1}/sam/sample{2}.zip"
 GET_URL = lambda p: DOWNLOAD_URL.format(p[0], p[1:], p)
-COMMANDS = \
-"""mkdir p{:0} 
-wget "{1}"
-mv sample{0}.zip p{0}
-cd p{0}
-unzip sample{0}.zip
-mv sample{0}/* .
-rm -r sample{0}*
-"""
 
 # Check if ada is set
 if not os.environ.get("ADAVENVSET"):
