@@ -2,12 +2,14 @@ CC := clang
 CFLAGS := -std=c++11 -fsanitize=address -fsanitize=leak -g --pedantic -Wunused-variable
 
 main : main.cpp
-	$(CC) main.cpp -o main $(CFLAGS) 
+	prepreprocessor main.cpp ppmain.cpp
+	$(CC) ppmain.cpp -o main $(CFLAGS) 
+	rm ppmain.cpp
 
 test: main
 	./main < sample.in > output
 	diff output sample.out
 
 copy: main.cpp
-	cat main.cpp | wl-copy 
+	prepreprocessor main.cpp | wl-copy 
 
