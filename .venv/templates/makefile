@@ -1,5 +1,5 @@
 CC := clang
-CFLAGS := -std=gnu89 -fsanitize=address -fsanitize=leak -g --pedantic -Wunused-variable
+CFLAGS := -std=c++11 -fsanitize=address -fsanitize=leak -g --pedantic -Wunused-variable
 
 main : main.cpp
 	$(CC) main.cpp -o main $(CFLAGS) 
