@@ -1,7 +1,7 @@
 #include <stdint.h>
 #include "fastio.h"
 
-int testcase(void)
+bool testcase(void)
 {
 
 }
