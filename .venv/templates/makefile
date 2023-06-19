@@ -1,9 +1,10 @@
-CC := clang
-CFLAGS := -std=c++11 -fsanitize=address -fsanitize=leak -g --pedantic -Wunused-variable
+CC := clang++
+CFLAGS := -std=c++11 -fsanitize=address -fsanitize=leak -g -Wunused-variable
+LFLAGS := -lstdc++
 
 main : main.cpp
 	prepreprocessor main.cpp ppmain.cpp
-	$(CC) ppmain.cpp -o main $(CFLAGS) 
+	$(CC) ppmain.cpp -o main $(CFLAGS) $(LFLAGS)
 	rm ppmain.cpp
 
 test: main
