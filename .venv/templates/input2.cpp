@@ -2,6 +2,10 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+/*
+%Descripcion%
+*/
+
 typedef long long ll;
 typedef pair<int, int> ii;
 typedef vector<int> vi;

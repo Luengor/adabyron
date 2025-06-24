@@ -1,11 +1,14 @@
 #!/usr/bin/env python3
 import os
 from sys import argv
+import requests
+import bs4
 
 # Constants
 ADAENVVAR = "ADAVENVSET"
 DOWNLOAD_URL = "https://aceptaelreto.com/pub/problems/v00{0}/{1}/sam/sample{2}.zip"
-GET_URL = lambda p: DOWNLOAD_URL.format(p[0], p[1:], p)
+def GET_URL(p): return DOWNLOAD_URL.format(p[0], p[1:], p)
+
 
 # Check if ada is set
 if not os.environ.get("ADAVENVSET"):
@@ -18,13 +21,54 @@ if len(argv) not in (2, 3):
 problem = argv[1]
 inputtype = 0 if len(argv) == 2 else int(argv[2])
 
-def copy_template(inputtype: int, name:str = "main.cpp"):
+
+def copy_template(inputtype: int, insert_text: str, name: str = "main.cpp"):
     os.system(f"cp ${ADAENVVAR}/templates/input{inputtype}.cpp {name}")
+    with open(name, 'r') as f:
+        content = f.read()
+    content = content.replace("%Descripcion%", insert_text)
+    with open(name, 'w') as f:
+        f.write(content)
+
     os.system(f"cp ${ADAENVVAR}/templates/makefile makefile")
 
-## Do everything
+
+# Get the description of the problem
+DESCRIPTION_URL = f"https://aceptaelreto.com/problem/statement.php?id={problem}"
+response = requests.get(DESCRIPTION_URL)
+if response.status_code != 200:
+    print(f"Problem {problem} does not exist")
+    exit(1)
+
+soup = bs4.BeautifulSoup(response.text, 'html.parser')
+title = soup.find('h1').get_text(strip=True)
+exercise = soup.find('div', id='exercise')
+assert exercise is not None, "Could not find the problem description"
+
+
+def get_text(element):
+    return "\n\n".join(' '.join(line.strip() for line in p.get_text().splitlines()).strip() for p in element.find_all('p', recursive=False))
+
+
+# The problem description are the top level <p> tags inside the <div id="exercise">
+exercise_text = get_text(exercise)
+input_section = get_text(exercise.find('div', id='inputDescription'))
+output_section = get_text(exercise.find('div', id='outputDescription'))
+
+full_text = f"""Problema {problem}: {title} ({DESCRIPTION_URL}):
+{exercise_text}
+
+Entrada:
+{input_section}
+
+Salida:
+{output_section}
+"""
+full_text = '\n'.join(' * ' + line for line in full_text.splitlines())
+
+# Do everything
 # Make folder, download, move, extract, move samples, delete
-os.system(f"mkdir p{problem}") 
+os.system(f"mkdir p{problem}")
 os.system(f"wget \"{GET_URL(problem)}\"")
 os.system(f"mv sample{problem}.zip p{problem}")
 os.chdir(f"p{problem}")
@@ -35,8 +79,6 @@ os.system(f"rm -r sample{problem}.zip")
 if len(argv) == 2:
     # Copy every template
     for i in (1, 2, 3):
-        copy_template(i, f"main{i}.cpp")
+        copy_template(i, full_text, f"main{i}.cpp")
 else:
-    copy_template(int(argv[2]))
-
-
+    copy_template(int(argv[2]), full_text)
