@@ -18,6 +18,10 @@ if len(argv) not in (2, 3):
 problem = argv[1]
 inputtype = 0 if len(argv) == 2 else int(argv[2])
 
+def copy_template(inputtype: int, name:str = "main.cpp"):
+    os.system(f"cp ${ADAENVVAR}/templates/input{inputtype}.cpp {name}")
+    os.system(f"cp ${ADAENVVAR}/templates/makefile makefile")
+
 ## Do everything
 # Make folder, download, move, extract, move samples, delete
 os.system(f"mkdir p{problem}") 
@@ -28,6 +32,11 @@ os.system(f"unzip sample{problem}.zip")
 os.system(f"rm -r sample{problem}.zip")
 
 # Copy template
-os.system(f"cp ${ADAENVVAR}/templates/input{inputtype}.cpp main.cpp")
-os.system(f"cp ${ADAENVVAR}/templates/makefile makefile")
+if len(argv) == 2:
+    # Copy every template
+    for i in (1, 2, 3):
+        copy_template(i, f"main{i}.cpp")
+else:
+    copy_template(int(argv[2]))
+
 

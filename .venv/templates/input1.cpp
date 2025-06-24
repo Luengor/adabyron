@@ -1,17 +1,29 @@
-#include <stdint.h>
-#include "fastio.h"
+#include <iostream>
+#include <bits/stdc++.h>
+using namespace std;
 
-void testcase(void)
+typedef long long ll;
+typedef pair<int, int> ii;
+typedef vector<int> vi;
+typedef vector<ii> vii;
+
+void casoDePrueba()
 {
-
+    // Aquí va todo
 }
 
-int main(void)
+int main()
 {
-    int tests;
+    ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 
-    for (tests = fio_parse_int(); tests > 0; tests--)
-        testcase();
+    unsigned int numCasos;
+
+    cin >> numCasos;
+    for (unsigned int i = 0; i < numCasos; ++i)
+    {
+        casoDePrueba();
+    }
 
     return 0;
 }
+
