@@ -1,60 +1,7 @@
 #include <iostream>
 #include <bits/stdc++.h>
-#include <queue>
 using namespace std;
 
-/*
- * Problema 810: ¡Acepta el reto! (https://aceptaelreto.com/problem/statement.php?id=810):
- * Cuando, ahora que está apunto de completar su título universitario, ha visto
- * que en las ofertas de empleo que llegan a su facultad hay una de mozo de
- * estación, se le ha caído el alma a los pies. Después de tanto esfuerzo y
- * sufrimiento estudiando asignaturas con el objetivo de abaratar los costes de
- * producción de empresas industriales, no esperaba que le llegaran ofertas de
- * ese tipo.
- *
- * Sin embargo, cuando después ha visto en qué consiste exactamente el empleo,
- * ha entendido que el trabajo en cuestión requiere educación superior. Si se
- * hace bien, se consigue un ahorro brutal en consumo de energía y se reduce la
- * contaminación de la zona.
- *
- * El trabajo consiste en enfrentarse, diariamente, a una casi-infinita fila de
- * coches esperando ansiosos a ser subidos a un tren que les llevará al otro
- * lado del país. El tren permite que los coches suban o bien por la parte
- * delantera o por la parte trasera, por lo que se debe, en pocos segundos,
- * decidir por orden de llegada, si le pide al siguiente coche en la fila que
- * suba por uno u otro lado del tren.
- *
- * Contado así no parece difícil. Podría basar su decisión en el lanzamiento de
- * una moneda, la paridad de la matrícula o cualquier otro criterio. El problema
- * es que hay otra restricción. Para garantizar la seguridad del tren, los
- * coches deben ir por orden decreciente de peso: el más pesado irá al lado de
- * la locomotora (entrará el último por el lado de la cabeza) y el más ligero
- * irá al final del todo (entrará el último por el lado trasero).
- *
- * Teniendo en cuenta esa restricción y que los coches de la fila no pueden
- * reordenarse, nuestro mozo de estación tiene que decidir si el coche va para
- * un lado u otro del tren o si, para que los coches queden ordenados por peso,
- * se tendrá que "quedar en tierra" a esperar al próximo tren. Que le cojan o no
- * en el trabajo depende de si es capaz de cargar el tren con el mayor número de
- * coches posible.
- *
- * Entrada:
- * La entrada está formada por distintos casos de prueba, cada uno ocupando dos
- * líneas.
- *
- * La primera línea de cada caso de prueba contiene el número de coches que
- * están esperando en la fila para ser transportados (entre 1 y 500.000). La
- * segunda línea contiene los pesos de cada uno de los coches (valores entre 1 y
- * 106, todos distintos) en el orden de espera.
- *
- * Tras el último caso de prueba viene una línea con un 0.
- *
- * Salida:
- * Por cada caso de prueba se escribirá una única línea indicando cuántos coches
- * podrán cargarse como mucho en el tren cumpliendo las restricciones indicadas.
-*/
-
-typedef long long ll;
 typedef pair<int, int> ii;
 typedef vector<int> vi;
 typedef vector<vector<int>> vvi;
@@ -63,11 +10,12 @@ typedef vector<ii> vii;
 // El problema realmente se basa en encontrar la subsecuencia decreciente seguida de una subsecuencia creciente más larga
 // longest decreasing subsequence (LDS) + longest increasing subsequence (LIS) = longest bitonic subsequence (LBS)
 
-vvi left_memo;
+// left_memo[i] contiene la longitud de la subsecuencia decreciente máxima que termina en el coche i
+vi left_memo;
 int left(int from, int to, const vi &pesos)
 {
     if(from == to) return 1; // Si solo hay un coche, la subsecuencia decreciente es de longitud 1
-    auto &memo = left_memo[from][to];
+    auto &memo = left_memo[to];
     if(memo != -1) return memo; // Si ya hemos calculado este subproblema, lo devolvemos
 
     // Inicializamos la longitud de la subsecuencia decreciente
@@ -87,11 +35,11 @@ int left(int from, int to, const vi &pesos)
     return memo = max_length;
 }
 
-vvi right_memo;
+vi right_memo;
 int lis(int from, int to, const vi &pesos)
 {
     if(from == to) return 1; // Si solo hay un coche, la subsecuencia creciente es de longitud 1
-    auto &memo = right_memo[from][to];
+    auto &memo = right_memo[from];
     if(memo != -1) return memo; // Si ya hemos calculado este subproblema, lo devolvemos
 
     // Inicializamos la longitud de la subsecuencia creciente
@@ -138,8 +86,8 @@ bool casoDePrueba()
     for(int i = 0; i < coches; i++)
         indices[i] = coches_pesos[i].second;
 
-    left_memo.assign(coches, vi(coches, -1));
-    right_memo.assign(coches, vi(coches, -1));
+    left_memo.assign(coches, -1);
+    right_memo.assign(coches, -1);
 
     // Buscamos el punto medio con la mayor longitud de subsecuencia decreciente y creciente
     int max_length = 0;
