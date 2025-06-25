@@ -2,64 +2,15 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-/*
- * Problema 811: ¡Acepta el reto! (https://aceptaelreto.com/problem/statement.php?id=811):
- * Quien más quien menos sabe que en el mundo de las matemáticas la complejidad
- * de demostrar una afirmación puede cambiar muchísimo ante cambios pequeños
- * del enunciado.
- * 
- * Por ejemplo, es más o menos sencillo demostrar que existen infinitas ternas
- * de números positivos que cumplen x2 + y2 = z2 pero costó más de 300 años
- * demostrar que si en lugar de un 2 ponemos cualquier otro número mayor,
- * entonces no existe ninguna terna que lo cumpla fuera de las triviales como
- * (1,0,1)*.
- * 
- * En el mundo de la algoritmia y la resolución de problemas ocurre algo
- * similar. Por ejemplo es bastante sencillo determinar si, dado un grafo, se
- * puede encontrar un recorrido que pase por todas las aristas sin repetir
- * ninguna pero es tremendamente costoso saber si hay un recorrido que pase por
- * todos los vértices sin repetir ninguno.
- * 
- * Hay ejemplos más fáciles de ver, al alcance de cualquiera con un poco de
- * sentido común. Por ejemplo, saber si un número es la raiz cuadrada de otro
- * no requiere saber hacer raíces cuadradas, sino que basta con saber
- * multiplicar; conocer el dígito menos significativo de un número elevado a
- * otro no requiere calcular el valor completo; incluso saber cuál es el último
- * dígito del factorial requiere únicamente comparaciones.
- * 
- * El último ejemplo que mencionaremos es el de la multiplicación de números
- * enteros: para saber si al multiplicar un puñado de números el resultado dará
- * positivo, negativo o cero, no se necesita hacer ninguna multiplicación.
- * 
- * Entrada:
- * La entrada está compuesta por distintos casos de prueba, cada uno ocupando
- * varias líneas.
- * 
- * La primera línea de cada caso tiene dos números: el primero, N, indica
- * cuántos valores hay que considerar y el segundo cuántas operaciones C se
- * realizan (ambos entre 1 y 300.000).
- * 
- * La siguiente línea contiene N valores entre -1000 y 1000. Tras ella vienen C
- * líneas con las distintas operaciones que pueden tener el siguiente formato:
- * 
- * La entrada termina con una línea con dos ceros que no debe procesarse.
- * 
- * Salida:
- * Por cada caso de prueba se escribirá una única línea con tantos caracteres
- * como operaciones de tipo ? haya en el caso. El resultado de la operación
- * será 0 si la multiplicación del intervalo de números dio 0, + si dio un
- * número positivo y - si fue negativo.
-*/
-
 typedef long long ll;
 typedef pair<int, int> ii;
 typedef vector<int> vi;
 typedef vector<ii> vii;
 
+#define SEGTREE_EMPTY INT_MIN
+
 class SegmentTree
 {
-    constexpr static int EMPTY = INT_MIN;
-
 private:
     int n;
 
@@ -71,8 +22,8 @@ private:
     // the function that does something
     int conquer(int a, int b)
     {
-        if (a == EMPTY) return b; // childs missing
-        if (b == EMPTY) return a;
+        if (a == SEGTREE_EMPTY) return b; // childs missing
+        if (b == SEGTREE_EMPTY) return a;
 
         return a * b;       // CHANGE THIS 
     }
@@ -100,7 +51,7 @@ private:
         // [i j] -> the range to rmq
         
         // ?
-        if (i > j) return EMPTY;
+        if (i > j) return SEGTREE_EMPTY;
 
         // if the current range is inside the searching range, return
         if ((L >= i) && (R <= j)) return st[p];
@@ -111,8 +62,29 @@ private:
                        rmq(r(p), m+1, R, max(i, m+1), j       ));
     }
 
-    void update(int p, int L, int R, int i, int k, int val)
+    void update(int p, int L, int R, int i, int val)
     {
+        // p -> the current node in the st
+        // [L R] -> the range of the current node 
+        // i -> the index to change 
+        // val -> the value to change it to
+
+        // check if am the node
+        if (L == R)
+        {
+            assert(L == i);
+            st[p] = val;
+            return;
+        }
+
+        // check if its left or right and then conquer
+        int m = (L+R)/2;
+        if (i <= m)
+            update(l(p), L, m, i, val);
+        else
+            update(r(p), m + 1, R, i, val);
+
+        st[p] = conquer(st[l(p)], st[r(p)]);
     }
 
 public:
@@ -120,16 +92,16 @@ public:
 
     SegmentTree(const vi &A) : SegmentTree(A.size())
     {
-        // Check if its a power of 2
-        assert (fmod(log2(A.size()), 1) == 0);
+        // // Check if its a power of 2
+        // assert (fmod(log2(A.size()), 1) == 0);
         
         this->A = A;
         build(1, 0, n - 1);
     }
 
-    void update(int i, int j, int val)
+    void update(int i, int val)
     {
-        update(1, 0, n - 1, i, j, val);
+        update(1, 0, n - 1, i, val);
     }
 
     int rmq(int i, int j)
@@ -138,6 +110,13 @@ public:
     }
 };
 
+int signum(int n)
+{
+    if (n > 0) return 1; 
+    if (n < 0) return -1; 
+    return 0;
+}
+
 bool casoDePrueba()
 {
     int n, c;
@@ -145,12 +124,11 @@ bool casoDePrueba()
     if (n == 0) return false;
 
     int act_size = pow(2, ceil(log2(n)));
-    vi A(act_size);
+    vi A(act_size, SEGTREE_EMPTY);
     for (int i = 0; i < n; i++)
     {
         cin >> A[i];
-        if (A[i] > 0) A[i] = 1;
-        else if (A[i] < 0) A[i] = -1;
+        A[i] = signum(A[i]);
     }
 
     SegmentTree st(A);
@@ -164,10 +142,12 @@ bool casoDePrueba()
         if (c == '?')
         {
             int rmq = st.rmq(a-1,b-1);
+            // assert(abs(rmq) <= 1);
             cout << "-0+"[rmq + 1];
         }
         else
         {
+            st.update(a - 1, signum(b));
         }
     }
 
