@@ -76,10 +76,7 @@ bool casoDePrueba()
 
 
     // Ordenamos los coches por peso (de mayor a menor) y por índice (de menor a mayor) para mantener el orden de llegada
-    sort(coches_pesos.begin(), coches_pesos.end(), [](const ii &a, const ii &b) {
-        if(a.first == b.first) return a.second < b.second;
-        return a.first > b.first;
-    });
+    sort(coches_pesos.begin(), coches_pesos.end());
 
     // Nos quedamos con los índices de los coches en el orden decreciente de peso
     vi indices(coches);
