@@ -24,7 +24,7 @@ struct Graph
     int dijkstra(int from, int to)
     {
         vi distances(AL.size(), -1);
-        priority_queue<ii, vector<ii>, less<ii>> Q;
+        priority_queue<ii> Q;
         Q.push({0, from});
         
         while (!Q.empty())
@@ -32,15 +32,15 @@ struct Graph
             auto to_check = Q.top(); Q.pop();
             const auto dis = to_check.first, node = to_check.second;
 
-            if (node == to) return dis;
+            if (node == to) return -dis;
 
             if (distances[node] != -1)
                 continue;
-            distances[node] = dis;
+            distances[node] = -dis;
 
             for (auto neigh : edges(node))
             {
-                Q.push({neigh.second + dis, neigh.first});
+                Q.push({-neigh.second + dis, neigh.first});
             }
         }
 
