@@ -1,12 +1,10 @@
 #include <iostream>
 #include <bits/stdc++.h>
 #include <queue>
+#include <tuple>
 using namespace std;
 
-typedef long long ll;
 typedef pair<int, int> ii;
-typedef vector<int> vi;
-typedef vector<ii> vii;
 
 #define MAX_SIZE 50 
 #define ACTUAL_MAX_SIZE (MAX_SIZE * 2 + 1)
@@ -15,53 +13,12 @@ int tx, ty;
 char mapa[ACTUAL_MAX_SIZE][ACTUAL_MAX_SIZE];
 ii origen, destino;
 
-struct Graph
-{
-    vector<vii> AL;
-
-    Graph(int s) : AL(s, vii()) {};
-
-    void edge(int i, int j, int k)
-    {
-        AL[i].push_back({j, k});
-        AL[j].push_back({i, k});
-    }
-
-    const vii& edges(int i) { return AL[i]; }
-
-    int dijkstra(int from, int to)
-    {
-        vi distances(AL.size(), -1);
-        priority_queue<ii> Q;
-        Q.push({0, from});
-        
-        while (!Q.empty())
-        {
-            auto to_check = Q.top(); Q.pop();
-            const auto dis = to_check.first, node = to_check.second;
-
-            if (node == to) return -dis;
-
-            if (distances[node] != -1)
-                continue;
-            distances[node] = -dis;
-
-            for (auto neigh : edges(node))
-            {
-                Q.push({-neigh.second + dis, neigh.first});
-            }
-        }
-
-        return -1;
-    }
-};
-
 const static ii moves[4] = {{-1, 0}, {1, 0}, {0, 1}, {0, -1}};
 typedef tuple<int, int, int> iii;
 void normal()
 {
     queue<iii> Q;
-    Q.push({origen.first, origen.second, 0});
+    Q.push(make_tuple(origen.first, origen.second, 0));
 
     while (!Q.empty())
     {
@@ -92,7 +49,7 @@ void normal()
         {
             // If can move
             if (mapa[sy + move.first][sx + move.second] == '#') continue;
-            Q.push({sy + move.first * 2, sx + move.second * 2, dis + 1});
+            Q.push(make_tuple(sy + move.first * 2, sx + move.second * 2, dis + 1));
         }
     }
 
@@ -123,11 +80,9 @@ void qbo()
     vector<vector<vector<bool>>> V(ty, vector<vector<bool>>(tx, vector<bool>(6, false)));
     queue<iiii> Q;
     Q.push({{origen.first, origen.second}, {ABAJO, 0}});
-    // int n = 0;
 
     while (!Q.empty())
     {
-        // n++;
         auto state = Q.front();
         Q.pop();
 
@@ -140,8 +95,6 @@ void qbo()
 
         // Salimos si ya está visitado 
         if (V[(pos.first - 1)/2][(pos.second - 1) / 2][face]) continue;
-
-        // cout << n << " (" << pos.first << ' ' << pos.second << ")\n";
 
         // Check if its the end
         if (destino == pos && face == ABAJO)
@@ -161,8 +114,6 @@ void qbo()
             if (mapa[pos.first + move.first][pos.second + move.second] == '#') continue;
 
             Q.push({{pos.first + move.first * 2, pos.second + move.second * 2}, {tranlation[i][face], dis + 1}});
-            // int new_n = n + Q.size();
-            // cout << new_n<< endl;
         }
     }
 
@@ -210,7 +161,6 @@ bool casoDePrueba()
 
     normal();
     qbo();
-
 
     return true;
 }
