@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import os
+import pathlib
 from sys import argv
 import requests
 import bs4
@@ -66,7 +67,20 @@ Salida:
 """
 full_text = '\n'.join(' * ' + line for line in full_text.splitlines())
 
-# Do everything
+## Do everything
+# Check if we are in the adabyron, problems or the vx folder
+cwd = pathlib.Path.cwd()
+curr_folder = cwd.stem
+vname = 'v' + str(int(problem) // 100)
+
+match (curr_folder):
+    case 'adabyron':
+        os.chdir(cwd.joinpath('problems', vname))
+
+    case 'problems':
+        os.chdir(cwd.joinpath(vname))
+
+
 # Make folder, download, move, extract, move samples, delete
 os.system(f"mkdir p{problem}")
 os.system(f"wget \"{GET_URL(problem)}\"")
