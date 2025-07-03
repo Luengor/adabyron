@@ -1,0 +1,45 @@
+\documentclass[a4paper,11pt,oneside]{memoir}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{titlesec}
+
+\titleformat{\chapter}[block]
+    {\normalfont\Large\bfseries}{\thechapter.}{1em}{\Large}
+\titlespacing*{\chapter}{0pt}{-19pt}{0pt}
+
+\titleformat{\section}[block]
+    {\normalfont\large\bfseries}{\thesection.}{1em}{\large}
+\titlespacing*{\section}{0pt}{3pt}{0pt}
+
+\titleformat{\subsection}[block]
+    {\normalfont\large}{\thesubsection.}{1em}{\large}
+\titlespacing*{\subsection}{0pt}{3pt}{0pt}
+
+\makeoddhead{plain}{\rightmark}{}{Dossier de Pizza con Piña}
+\copypagestyle{chapter}{plain}
+\copypagestyle{header}{plain}
+\pagestyle{plain}
+
+\lstdefinestyle{estilo}{
+    basicstyle=\ttfamily,
+    commentstyle=\color{gray},
+    frame=single,
+    breaklines=true,
+    language=C++,
+    numbers=left,
+    numbersep=8pt,
+}
+\lstset{style=estilo}
+
+\NewDocumentCommand{\lst}{O{1} m}{\lstinputlisting[firstline=#1]{../libs/#2}}
+
+\begin{document}
+
+\input{al.tex}
+\input{es.tex}
+\input{ma.tex}
+\input{ge.tex}
+
+\lst{darray.c}
+
+\end{document}
