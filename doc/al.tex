@@ -1,14 +1,20 @@
 \chapter{Algoritmia}
 
-\section{Ordenación y búsqueda binaria}
+\section{Búsqueda exhaustiva, fuerza bruta o backtracking, como lo quieras llamar}
+Buscar todo/casi todo el espacio de soluciones, y hasta encontrar una solución. Es todo lo lento
+que puede ser, pero no es mala idea intentarlo si no se ocurre otra idea.
+\lst{brute.cpp}
 
-\section{Búsqueda exhaustiva}
+\section{Divide y vencerás}
+Consiste en seguir tres sencillos pasos: dividir el problema en sub-problemas
+(como por la mitad más menos), encontrar soluciones a esos problemas más
+pequeños (que será más fácil, porque son más pequeños) y combinar las soluciones
+de los subproblemas. Normalmente consiste en utilizar una estructura que haga esto
+(montículos, bBST, etc.) o en hacer \textbf{búsqueda binaria de la solución}.
+\lst{bsta.cpp}
 
-\section{Backtracking}
 
-\section{Voraz}
+\section{Voraz, greedy}
 
 \section{Programación dinámica}
 \subsection{LIS}
-
-\section{Divide y vencerás}

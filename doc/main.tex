@@ -38,7 +38,13 @@
 }
 \lstset{style=estilo}
 
-\NewDocumentCommand{\lst}{O{4} m}{\lstinputlisting[firstline=#1]{../libs/#2}}
+\NewDocumentCommand{\lst}{O{4} m}{%
+    \IfFileExists{../libs/#2}{%
+        \lstinputlisting[firstline=#1]{../libs/#2}
+    }{%
+        \lstinputlisting[firstline=#1]{./code/#2}
+    }
+}
 
 \begin{document}
 
@@ -46,5 +52,6 @@
 \input{es.tex}
 \input{ma.tex}
 \input{ge.tex}
+\input{ot.tex}
 
 \end{document}
