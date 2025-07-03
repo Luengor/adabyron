@@ -4,33 +4,69 @@ using namespace std;
 
 typedef vector<int> vi;
 
-#include <ext/pb_ds/assoc_container.hpp>
-#include <ext/pb_ds/tree_policy.hpp>
+// que demónios es un árbol de fenwick 
+class FenwickTree
+{
+private:
+    vi bit;
+    int size;
 
-using namespace __gnu_pbds;
+public:
+    FenwickTree(int n) : size(n), bit(n + 1, 0) {}
 
-typedef tree<int, null_type, std::less<int>, rb_tree_tag, tree_order_statistics_node_update> ordered_set;
+    int query(int index)
+    {
+        int sum = 0;
+        while (index > 0)
+        {
+            sum += bit[index];
+            index -= index & -index; //???
+        }
+        return sum;
+    }
+
+    void update(int index, int delta)
+    {
+        while (index <= size)
+        {
+            bit[index] += delta;
+            index += index & -index;
+        }
+    }
+};
+
 
 void casoDePrueba()
 {
     int n;
     cin >> n;
 
-    ordered_set digits;
+    FenwickTree T(n);
     for (int i=0;i<n;i++)
-        digits.insert(i + 1);
+        T.update(i + 1, 1);
 
     for (int i = 0; i < n; i++)
     {
         int f;
         cin >> f;
 
-        // f-ésimo elemento
-        auto it = digits.find_by_order(f);
-        int d = *it;
+        // ligera búsqueda binaria
+        int low = 1, high = n;
+        int d = -1;
+        while (low <= high)
+        {
+            int mid = low + (high - low) / 2;
+            if (T.query(mid) > f)
+            {
+                d = mid;
+                high = mid - 1;
+            }
+            else
+                low = mid + 1;
+        }
 
-        // eleminar rapidísimo
-        digits.erase(it);
+        // eleminar "rapidísimo"
+        T.update(d, -1);
 
         if (i == n - 1)
             cout << d << '\n';
