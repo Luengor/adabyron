@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int n;  // Número de nodos
+int n; // Número de nodos
 
 /*
  * Grafo como lista de adyacencia:
@@ -28,4 +28,3 @@ vector<vector<int>> AM(n, vector<int>(n, -1));
  *   - No es eficiente para consultas de adyacencia.
  */
 vector<tuple<int, int, int>> EL;
-

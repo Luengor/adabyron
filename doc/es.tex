@@ -3,40 +3,84 @@
 Todas las estructuras de datos básicas que se pueden encontrar en la STL de C++.
 
 \begin{lstlisting}
-vector<int> lista;                      // Suele venir bien inicializada
-stack<int> pila;                        // LIFO
-queue<int> cola;                        // FIFO
-priority_queue<int> cola_prioridad;     // La cabeza es el mayor elemento
-unordered_set<int> conjunto;            // Conjunto de elementos únicos
-unordered_map<string, int> hashmap;     // Mapa de clave-valor, sin orden
+vector<int> lista;                  // Suele venir bien inicializada
+stack<int> pila;                    // LIFO
+queue<int> cola;                    // FIFO
+priority_queue<int> cola_prioridad; // La cabeza es el mayor elemento
+unordered_set<int> conjunto;        // Conjunto de elementos únicos
+unordered_map<string, int> hashmap; // Mapa de clave-valor, sin orden
+multimap<string, int> multimap;     // Mapa de clave-valor, con claves repetidas
+                                    // un bBST
 
 // No hay clase para el heap, pero se puede usar un vector
 vector<int> H;
-is_heap(H.begin(), H.end());    // Comprueba si es un heap
-make_heap(H.begin(), H.end());  // Crea un heap a partir de un vector
-push_heap(H.begin(), H.end());  // Incluye el último elemento en el heap
-pop_heap(H.begin(), H.end());   // Mueve el mayor elemento al final
-sort_heap(H.begin(), H.end());  // Convierte el heap en un vector ordenado
+is_heap(H.begin(), H.end());   // Comprueba si es un heap
+make_heap(H.begin(), H.end()); // Crea un heap a partir de un vector
+push_heap(H.begin(), H.end()); // Incluye el último elemento en el heap
+pop_heap(H.begin(), H.end());  // Mueve el mayor elemento al final
+sort_heap(H.begin(), H.end()); // Convierte el heap en un vector ordenado
 \end{lstlisting}
 
 \section{Conjuntos disjuntos}
 Modela conjuntos disjuntos. Útil para encontrar componentes conexos en grafos.
 
-\lst{ds/ufds.cpp}
+\lst[4]{ds/ufds.cpp}
 
 \section{Grafos}
 Los grafos se pueden representar de varias formas, pero la más común es mediante
 una lista de adyacencia (es la que se usa en todos). También hay veces que no
 hace falta una estructura específica para los grafos. Ordenados de más a menos
 uso:
-\lst{ds/graph.cpp}
+\lst[4]{ds/graph.cpp}
 
 \subsection{BFS y DFS}
+Las dos formas más comunes de recorrer un grafo. BFS (Breadth-First Search)
+recorre el grafo primero por niveles mientras que DFS (Depth-First Search)
+recorre el grafo en profundidad. La primera se suele implementar con una cola y
+la segunda de manera recursiva (o con una pila).
+
+Se pueden usar para: encontrar componentes conexos, detectar ciclos (al intentar volver
+a un nodo ya visitado), contar el orden topológico de un grafo dirigido (DFS),
+comprobar si un grafo es bipartito (BFS, si vamos guardando distancias nos aseguramos de
+que los nodos pares solo están conectados a impares y viceversa), etc.
+
+\lst[4]{alg/bdfs.cpp}
+
+% Flood Fill
+% Topological Sort
+\subsection{MST}
+Construcción de un árbol con coste mínimo que conecta todos los nodos de un grafo.
+\lst[8]{alg/mst-prim.cpp}
 
 \subsection{Dijkstra}
-\subsection{MST}
+Camino mínimo desde un nodo a todos los demás en un grafo ponderado (con pesos
+\textbf{NO} negativos).
+\lst[9]{alg/dijkstra.cpp}
+
+
 \subsection{Bipartitos}
+Grafos en los que los nodos se pueden dividir en dos conjuntos disjuntos de tal
+forma que no hay aristas entre nodos del mismo conjunto. Se utilizan para
+modelar relaciones entre dos tipos de entidades. MCBM (Maximum Cardinality
+Bipartite Matching) es un algoritmo que encuentra el emparejamiento máximo en un
+grafo bipartito.
+\lst{alg/mcbm.cpp}
+
 \subsection{Max flow}
-\subsection{Árboles binaros}
+Problema clásico de flujo máximo en un grafo. El algoritmo de Edmonds-Karp
+utiliza BFS para encontrar caminos aumentantes y calcular el flujo máximo.
+Si las capacidades de las aristas son enteros, el algoritmo termina en un
+tiempo polinómico, si son racionales la complejidad no está boundeada y
+con cantidades irracionales el algoritmo no funciona.
+\lst[7]{alg/max_flow.cpp}
+
 \subsection{Árboles de segmentos}
-\subsection{Árbol de Fenwick}
+Árboles que permiten realizar consultas y actualizaciones en un rango de un
+array de forma eficiente. Útiles para problemas que piden realizar operaciones
+en rangos de un array, como sumar o encontrar el mínimo \textbf{y} además es
+necesario actualizar el array de manera frecuente.
+
+\lst[6]{ds/seg_tree.cpp}
+
+% \subsection{Árbol de Fenwick}
+
