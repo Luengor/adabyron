@@ -3,6 +3,11 @@
 \usepackage{xcolor}
 \usepackage{titlesec}
 
+\setlrmarginsandblock{3cm}{2.5cm}{*}
+\setulmarginsandblock{2.5cm}{2.5cm}{*}
+\checkandfixthelayout
+
+
 \titleformat{\chapter}[block]
     {\normalfont\Large\bfseries}{\thechapter.}{1em}{\Large}
 \titlespacing*{\chapter}{0pt}{-19pt}{0pt}
@@ -21,17 +26,19 @@
 \pagestyle{plain}
 
 \lstdefinestyle{estilo}{
-    basicstyle=\ttfamily,
+    basicstyle=\ttfamily\footnotesize,
     commentstyle=\color{gray},
     frame=single,
     breaklines=true,
     language=C++,
     numbers=left,
     numbersep=8pt,
+    extendedchars=true,
+    literate={á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1 {ñ}{{\~n}}1 {Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1 {Ñ}{{\~N}}1
 }
 \lstset{style=estilo}
 
-\NewDocumentCommand{\lst}{O{1} m}{\lstinputlisting[firstline=#1]{../libs/#2}}
+\NewDocumentCommand{\lst}{O{4} m}{\lstinputlisting[firstline=#1]{../libs/#2}}
 
 \begin{document}
 
@@ -39,7 +46,5 @@
 \input{es.tex}
 \input{ma.tex}
 \input{ge.tex}
-
-\lst{darray.c}
 
 \end{document}
