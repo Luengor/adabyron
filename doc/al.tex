@@ -15,6 +15,27 @@ de los subproblemas. Normalmente consiste en utilizar una estructura que haga es
 
 
 \section{Voraz, greedy}
+Para que un problema se pueda resolver con un algoritmo voraz hace falta que:
+tenga sub-estructuras óptimas (aka. que la solución óptima para el problema
+completo contenga las soluciones de los sub-problemas) y cumple la
+\textit{propiedad voraz}, escoger la mejor opción en algún momento siempre lleva
+al mejor resultado, nunca hay que hacer backtrack (esta segunda no merece la
+pena intentar demostrarla durante el concurso, mejor implementarlo y probar).
+Tirar una cola de prioridad a las cosas acostumbra a ser greedy.
+
+% Load Balancing
+% Interval Covering
+% Greedy Matching
 
 \section{Programación dinámica}
+Backtracking pero mejor. Se utiliza principalmente en problemas de optimización
+o contar cosas. Para que un problema se pueda resolver con DP hacen falta dos
+cosas: que tenga sub-estructuras óptimas (como voraz) y que sus sub-problemas se
+superpongan (es decir, hay varias maneras de llegar a un mismo estado de
+búsqueda). DP consiste en cachear los resultados de los subproblemas para usos
+posteriores. Se puede hacer \enquote{desde arriba} o \enquote{desde abajo}.
+
+\lst{dp.cpp}
+
 \subsection{LIS}
+\lst{alg/lis.cpp}
