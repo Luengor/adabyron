@@ -2,41 +2,36 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-/*
- *
- * 3
- * 0 0 0 -> representa el valor 0*2! + 0*1! + 0*0! = 0 -> la primera permutación de n (3) elementos -> 1 2 3
- *
- * 3
- * 1 0 0  -> representa el valor 1*2! + 0*1! + 0*0! = 2 -> la tercera permutación de n (3) elementos -> 2 1 3 
- *
- * 4
- * 2 2 0 0 
- *
- * 4
- * 3 2 1 0
- */
-
 typedef vector<int> vi;
+
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+
+using namespace __gnu_pbds;
+
+typedef tree<int, null_type, std::less<int>, rb_tree_tag, tree_order_statistics_node_update> ordered_set;
 
 void casoDePrueba()
 {
     int n;
     cin >> n;
 
-    vi factroid(n);
-    vi digits(n);
+    ordered_set digits;
     for (int i=0;i<n;i++)
-    {
-        cin >> factroid[i];
-        digits[i] = i+1;
-    }
+        digits.insert(i + 1);
 
     for (int i = 0; i < n; i++)
     {
-        const auto f = factroid[i];
-        int d = digits[f];
-        digits.erase(next(digits.begin(), f));
+        int f;
+        cin >> f;
+
+        // f-ésimo elemento
+        auto it = digits.find_by_order(f);
+        int d = *it;
+
+        // eleminar rapidísimo
+        digits.erase(it);
+
         if (i == n - 1)
             cout << d << '\n';
         else
