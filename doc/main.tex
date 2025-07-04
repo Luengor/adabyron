@@ -44,7 +44,11 @@
     \IfFileExists{../libs/#2}{%
         \lstinputlisting[firstline=#1]{../libs/#2}
     }{%
-        \lstinputlisting[firstline=#1]{./code/#2}
+        \IfFileExists{./code/#2}{%
+            \lstinputlisting[firstline=#1]{./code/#2}
+        }{%
+            \lstinputlisting{./../#2}
+        }
     }
 }
 
@@ -54,5 +58,6 @@
 \input{es.tex}
 \input{ma.tex}
 \input{ge.tex}
+\input{ot.tex}
 
 \end{document}
