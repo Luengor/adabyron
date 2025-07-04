@@ -1,5 +1,7 @@
 \chapter{Mates}
 \section{Primos}
+Unos cuantos primos muy grandes: $1e9 + 7$, $1e9 + 9$, $1e9 + 21$.
+
 \subsection{Eratóstenes}
 \lst{alg/criba.cpp}
 
@@ -10,9 +12,63 @@
 \subsection{EGCD}
 \lst{alg/mod_inv.cpp}
 
-% Combinatorics
 % Teorema chino del resto?
 
 \section{Combinatoria}
+\subsection{Números catalanes}
+Los números catalanes cuentan un montón de cosas, como:
+\begin{itemize}
+    \item $Cat(n)$ es el número de árboles binarios con $n$ nodos.
+
+    \item $Cat(n)$ el número de expresiones de paréntesis bien formadas con $n$
+    pares de paréntesis.
+
+    \item $Cat(n)$ el número de formas de dividir un polígono convexo de $n+2$
+    lados en triángulos.
+
+    \item $Cat(n)$ el número de caminos de $n$ pasos que no suben por encima de
+    la diagonal en un plano.
+\end{itemize}
+
+Números catalanes, fibonacci y coeficientes binomiales
+\lst{alg/fib_cat.cpp}
+
+\subsection{Nth Permutation con Factoradic}
+El orden de las permutaciones se puede calcular con un sistema factorádico, que
+es una representación de números enteros en base factorial. Cada dígito del
+número factorádico representa la cantidad de veces que se usa cada
+factorial en la descomposición del número. (Por ejemplo, el número 1010 en
+factorádico es 1*3! + 0*2! + 1*1! + 0*0! = 6 + 0 + 1 + 0 = 7). Se puede
+utilizar para encontrar la $k$-ésima permutación de un conjunto de elementos
+sin necesidad de generar todas las permutaciones (muy rápido con un árbol de
+fenwick).
+
+\lst{alg/factoradic.cpp}
+
 % orden de permutaciones con sistemas factorádicos
 \section{Matrices}
+\subsection{Ecuaciones}
+Se puede resolver un sistema de ecuaciones lineales utilizando el método de Gauss
+a partir de la matriz aumentada del sistema.
+\begin{align}
+a_{11} x_1 + a_{12} x_2 + &\dots + a_{1m} x_m = b_1 \\
+a_{21} x_1 + a_{22} x_2 + &\dots + a_{2m} x_m = b_2\\
+&\vdots \\
+a_{n1} x_1 + a_{n2} x_2 + &\dots + a_{nm} x_m = b_n
+\end{align}
+
+\lst{alg/gauss.cpp}
+
+\subsection{Rank}
+El rango de una matriz es el número máximo de columnas linealmente
+independientes. Se puede calcular utilizando el método de eliminación de Gauss.
+\lst{alg/mat_rank.cpp}
+
+\subsection{Determinante}
+No te lo vas a creer, pero el determinante de una matriz se puede calcular
+utilizando un método que tiene un nombre que se parece a Mouse.
+\lst{alg/det_gauss.cpp}
+
+\subsection{Multiplicación}
+\lst{alg/mat_mul.cpp}
+
